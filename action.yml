@@ -1,0 +1,22 @@
+name: 'Sleep'
+
+description: 'Sleeps for an amount of seconds'
+
+inputs:
+  seconds:
+    description: 'The number of seconds to sleep'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Sleep (for Non-Windows)
+      if: ${{ runner.os != 'Windows'}}
+      run: sleep ${{ inputs.seconds }}s
+      shell: bash
+
+    - name: Sleep (for Windows)
+      if: ${{ runner.os == 'Windows'}}
+      run: Start-Sleep -s ${{ inputs.seconds }}
+      shell: pwsh
